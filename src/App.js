@@ -1,24 +1,62 @@
-import logo from './logo.svg';
 import './App.css';
+// import About from './Components/About';
+import Navbar from './Components/Navbar';
+import TextForm from './Components/TextForm';
+import React, { useState } from 'react';
+import Alert from './Components/Alert';
+// import {
+//   BrowserRouter as Router,
+//   Routes,
+//   Route,
+//   // Link
+// } from "react-router-dom";
+
+
 
 function App() {
+  const [mode, setMode] = useState('light');
+  const [alertText, setAlertText] = useState(null)
+  const showAlert = (message, type) => {
+
+    setAlertText({
+      msg: message,
+      type: type
+    })
+    setTimeout(() => {
+      setAlertText(null);
+
+    }, 2000);
+
+
+  }
+  const toggleMode = () => {
+    if (mode === 'dark') {
+      setMode('light');
+      document.body.style.backgroundColor = 'white';
+      showAlert('LightMode enable successfully', 'success');
+    }
+    else {
+      setMode('dark');
+      document.body.style.backgroundColor = 'black';
+      showAlert('DarkMode enable successfully', 'success');
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* <Router> */}
+      <Navbar title="TextUtils" aboutText="About" mode={mode} toggleMode={toggleMode} />
+      {/* <Navbar /> ye default value lega */}
+      <Alert alertText={alertText} />
+      <div className="container my-3">
+        <TextForm heading='Enter the text to analyze' mode={mode} showAlert={showAlert} />
+        {/* <Routes>
+            <Route exact path="/about" element={<About />} />
+            <Route exact path="/" element={<TextForm heading='Enter the text to analyze' mode={mode} showAlert={showAlert} />} />
+          </Routes> */}
+      </div>
+      {/* </Router> */}
+
+    </>
   );
 }
 
